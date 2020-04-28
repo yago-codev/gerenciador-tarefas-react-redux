@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import { TarefasToolbar, TarefasTable } from './components';
+import api from '../../services/api';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,11 +16,39 @@ const useStyles = makeStyles(theme => ({
 const TarefaList = () => {
   const classes = useStyles();
 
-  const [tarefas] = useState([]);
+  const [tarefas, setTarefas] = useState([]);
+
+  const headers = { 'x-tenant-id' : 'yagomilano92@gmail.com' }
+
+  useEffect(() => {
+    listarTarefas();
+  }, []);
+
+  const salvar = (tarefa) => {
+    api.post('/tarefas', tarefa, { headers })
+      .then(response => {
+        listarTarefas();
+        console.log(response.data);
+      }).catch(erro => {
+        console.log(erro);
+      });
+  }
+
+  const listarTarefas = () => {
+    api.get('/tarefas', { headers })
+      .then(response => {
+        const listaDeTarefas = response.data;
+        console.log(response.data);
+        setTarefas(listaDeTarefas);
+      })
+      .catch(erro => {
+        console.log(erro);
+      });
+  }
 
   return (
     <div className={classes.root}>
-      <TarefasToolbar />
+      <TarefasToolbar salvar={salvar} />
       <div className={classes.content}>
         <TarefasTable tarefas={tarefas} />
       </div>

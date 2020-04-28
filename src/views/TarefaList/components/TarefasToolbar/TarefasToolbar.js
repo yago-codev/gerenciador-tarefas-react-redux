@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TarefasToolbar = props => {
-  const { className, ...rest } = props;
+  const { className, salvar, ...rest} = props;
 
   const [descricao, setDescricao] = useState('');
   const [categoria, setCategoria] = useState('');
@@ -45,7 +45,12 @@ const TarefasToolbar = props => {
   const submeterDados = (event) => {
     event.preventDefault();
 
-    console.log(`Descrição: ${descricao}. Categoria: ${categoria}`)
+    const tarefa = {
+      categoria,
+      descricao,
+    }
+
+    salvar(tarefa);
   }
 
   return (
@@ -90,9 +95,9 @@ const TarefasToolbar = props => {
                 value={categoria}
               >
                 <MenuItem value="">Selecione...</MenuItem>
-                <MenuItem value={'TRABALHO'}>Trabalho</MenuItem>
-                <MenuItem value={'ESTUDO'}>Estudo</MenuItem>
-                <MenuItem value={'OUTROS'}>Outros</MenuItem>
+                <MenuItem value="TRABALHO">Trabalho</MenuItem>
+                <MenuItem value="ESTUDOS">Estudo</MenuItem>
+                <MenuItem value="OUTROS">Outros</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -118,7 +123,8 @@ const TarefasToolbar = props => {
 };
 
 TarefasToolbar.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  salvar: PropTypes.func,
 };
 
 export default TarefasToolbar;

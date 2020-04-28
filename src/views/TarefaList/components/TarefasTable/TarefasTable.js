@@ -56,8 +56,16 @@ const TarefasTable = props => {
                   <TableCell>Status</TableCell>
                 </TableRow>
               </TableHead>
-
-              <TableBody />
+              <TableBody>
+                {tarefas.map(tarefa => (
+                  <TableRow key={tarefa.id}>
+                    <TableCell>{tarefa.id}</TableCell>
+                    <TableCell>{tarefa.descricao}</TableCell>
+                    <TableCell>{tarefa.categoria}</TableCell>
+                    <TableCell>{tarefa.done ? 'Concluído' : 'Pendente'}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
             </Table>
           </div>
         </PerfectScrollbar>
@@ -68,7 +76,7 @@ const TarefasTable = props => {
 
 TarefasTable.propTypes = {
   className: PropTypes.string,
-  users: PropTypes.array.isRequired
+  tarefas: PropTypes.array.isRequired
 };
 
 export default TarefasTable;
