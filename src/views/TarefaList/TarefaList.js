@@ -27,8 +27,8 @@ const TarefaList = () => {
   const salvar = (tarefa) => {
     api.post('/tarefas', tarefa, { headers })
       .then(response => {
-        listarTarefas();
-        console.log(response.data);
+        const novaTarefa = response.data;
+        setTarefas([...tarefas, novaTarefa]);
       }).catch(erro => {
         console.log(erro);
       });

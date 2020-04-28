@@ -51,6 +51,9 @@ const TarefasToolbar = props => {
     }
 
     salvar(tarefa);
+
+    setDescricao('');
+    setCategoria('');
   }
 
   return (
@@ -71,6 +74,7 @@ const TarefasToolbar = props => {
             sm={4}
           >
             <TextField
+              autoFocus
               className={classes.searchInput}
               fullWidth
               label="Descrição"
