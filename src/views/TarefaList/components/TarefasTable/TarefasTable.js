@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TarefasTable = props => {
-  const { className, tarefas, ...rest } = props;
+  const { className, tarefas, alterarStatus, ...rest } = props;
 
   const classes = useStyles();
 
@@ -67,7 +67,10 @@ const TarefasTable = props => {
                     <TableCell>{tarefa.categoria}</TableCell>
                     <TableCell>{tarefa.done ? 'Concluído' : 'Pendente'}</TableCell>
                     <TableCell>
-                      <IconButton color="primary">
+                      <IconButton
+                        color="primary"
+                        onClick={() => alterarStatus(tarefa.id)}
+                      >
                         {tarefa.done ? (
                           <DoneAllIcon />
                         ) : (

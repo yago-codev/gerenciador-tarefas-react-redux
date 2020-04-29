@@ -41,16 +41,33 @@ const TarefaList = () => {
         console.log(response.data);
         setTarefas(listaDeTarefas);
       })
-      .catch(erro => {
-        console.log(erro);
-      });
+      .catch(erro => console.log(erro));
+  }
+
+  const alterarStatus = (id) => {
+    api.patch(`/tarefas/${id}`, null, { headers })
+      .then(() => {
+        const tarefaConcluida = [...tarefas];
+        
+        tarefaConcluida.map(tarefa => {
+          if (tarefa.id === id) {
+            tarefa.done = true;
+          }
+        })
+        
+        setTarefas(tarefaConcluida);
+      })
+      .catch(erro => console.log(erro));
   }
 
   return (
     <div className={classes.root}>
       <TarefasToolbar salvar={salvar} />
       <div className={classes.content}>
-        <TarefasTable tarefas={tarefas} />
+        <TarefasTable
+          alterarStatus={alterarStatus}
+          tarefas={tarefas}
+        />
       </div>
     </div>
   );
