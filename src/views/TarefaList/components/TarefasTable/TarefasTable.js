@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TarefasTable = props => {
-  const { className, tarefas, alterarStatus, deletarTarefa, ...rest } = props;
+  const { className, tarefas, alterarStatus, abrirModal, ...rest } = props;
 
   const classes = useStyles();
 
@@ -82,7 +82,7 @@ const TarefasTable = props => {
                     <TableCell>
                       <IconButton
                         aria-label="delete"
-                        onClick={() => deletarTarefa(tarefa.id)}
+                        onClick={() => abrirModal(tarefa.id)}
                       >
                         <DeleteIcon style={{ color: 'red' }} />
                       </IconButton>
@@ -101,7 +101,7 @@ const TarefasTable = props => {
 TarefasTable.propTypes = {
   className: PropTypes.string,
   deletarTarefa: PropTypes.func,
-  tarefas: PropTypes.array.isRequired
+  tarefas: PropTypes.array.isRequired,
 };
 
 export default TarefasTable;

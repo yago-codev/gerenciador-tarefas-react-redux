@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 
 import { TarefasToolbar, TarefasTable } from './components';
 import api from '../../services/api';
@@ -17,6 +18,10 @@ const TarefaList = () => {
   const classes = useStyles();
 
   const [tarefas, setTarefas] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [btnExcluirTarefa, setBtnExcluirTarefa] = useState(false);
+  const [mensagemDialog, setMensagemDialog] = useState('');
+  const [idTarefaExcluida, setIdTarefaExcluida] = useState(null);
 
   const headers = { 'x-tenant-id' : 'yagomilano92@gmail.com' }
 
@@ -29,8 +34,11 @@ const TarefaList = () => {
       .then(response => {
         const novaTarefa = response.data;
         setTarefas([...tarefas, novaTarefa]);
-      }).catch(erro => {
-        console.log(erro);
+        setMensagemDialog('Tarefa criada com sucesso.');
+        setOpenDialog(true);
+      }).catch(() => {
+        setMensagemDialog('Ocorreu um erro ao tentar salvar a tarefa.');
+        setOpenDialog(true);
       });
   }
 
@@ -41,7 +49,10 @@ const TarefaList = () => {
         console.log(response.data);
         setTarefas(listaDeTarefas);
       })
-      .catch(erro => console.log(erro));
+      .catch(() => {
+        setMensagemDialog('Ocorreu um erro ao tentar carregar as tarefas.');
+        setOpenDialog(true);
+      });
   }
 
   const alterarStatus = (id) => {
@@ -57,7 +68,16 @@ const TarefaList = () => {
         
         setTarefas(tarefaConcluida);
       })
-      .catch(erro => console.log(erro));
+      .catch(() => {
+        setMensagemDialog('Ocorreu um erro ao alterar o status da terefa');
+        setOpenDialog(true);
+      });
+  }
+
+  const abrirModal = (id) => {
+    setOpenDialog(true);
+    setBtnExcluirTarefa(true);
+    setIdTarefaExcluida(id);
   }
 
   const deletarTarefa = (id) => {
@@ -65,7 +85,12 @@ const TarefaList = () => {
       .then(() => {
         const lista = tarefas.filter(tarefa => tarefa.id !== id);
         setTarefas(lista);
-      }).catch(erro => console.log(erro));
+        setIdTarefaExcluida(null);
+        setOpenDialog(false);
+      }).catch(() => {
+        setMensagemDialog('Ocorreu um erro ao tentar excluir a tarefa');
+        setOpenDialog(true);
+      });
   }
 
   return (
@@ -73,11 +98,29 @@ const TarefaList = () => {
       <TarefasToolbar salvar={salvar} />
       <div className={classes.content}>
         <TarefasTable
+          abrirModal={abrirModal}
           alterarStatus={alterarStatus}
-          deletarTarefa={deletarTarefa}
           tarefas={tarefas}
         />
       </div>
+      <Dialog
+        onClose={() => setOpenDialog(false)}
+        open={openDialog}
+      >
+        <DialogTitle>
+          Atenção
+        </DialogTitle>
+        <DialogContent>
+          {mensagemDialog}
+        </DialogContent>
+        <DialogActions>
+          { btnExcluirTarefa && <Button
+            idTarefaExcluida
+            onClick={() => deletarTarefa(idTarefaExcluida)}
+                                >sim</Button> }
+          <Button onClick={() => setOpenDialog(false)}>fechar</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
