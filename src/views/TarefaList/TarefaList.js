@@ -60,12 +60,21 @@ const TarefaList = () => {
       .catch(erro => console.log(erro));
   }
 
+  const deletarTarefa = (id) => {
+    api.delete(`/tarefas/${id}`, { headers })
+      .then(() => {
+        const lista = tarefas.filter(tarefa => tarefa.id !== id);
+        setTarefas(lista);
+      }).catch(erro => console.log(erro));
+  }
+
   return (
     <div className={classes.root}>
       <TarefasToolbar salvar={salvar} />
       <div className={classes.content}>
         <TarefasTable
           alterarStatus={alterarStatus}
+          deletarTarefa={deletarTarefa}
           tarefas={tarefas}
         />
       </div>

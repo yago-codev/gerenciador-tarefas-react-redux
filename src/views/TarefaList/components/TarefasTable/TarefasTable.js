@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
+import TimerIcon from '@material-ui/icons/Timer';
+import DoneAllIcon from '@material-ui/icons/DoneAll'
+import DeleteIcon from '@material-ui/icons/Delete';
 import {
   Card,
   CardContent,
@@ -13,8 +16,6 @@ import {
   TableRow,
   IconButton
 } from '@material-ui/core';
-import TimerIcon from '@material-ui/icons/Timer';
-import DoneAllIcon from '@material-ui/icons/DoneAll'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -37,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TarefasTable = props => {
-  const { className, tarefas, alterarStatus, ...rest } = props;
+  const { className, tarefas, alterarStatus, deletarTarefa, ...rest } = props;
 
   const classes = useStyles();
 
@@ -57,6 +58,7 @@ const TarefasTable = props => {
                   <TableCell>Categoria</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell><></></TableCell>
+                  <TableCell><></></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -68,14 +70,21 @@ const TarefasTable = props => {
                     <TableCell>{tarefa.done ? 'Concluído' : 'Pendente'}</TableCell>
                     <TableCell>
                       <IconButton
-                        color="primary"
                         onClick={() => alterarStatus(tarefa.id)}
                       >
                         {tarefa.done ? (
-                          <DoneAllIcon />
+                          <DoneAllIcon style={{ color: 'green' }} />
                         ) : (
-                          <TimerIcon />
+                          <TimerIcon  />
                         )}
+                      </IconButton>
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => deletarTarefa(tarefa.id)}
+                      >
+                        <DeleteIcon style={{ color: 'red' }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -91,6 +100,7 @@ const TarefasTable = props => {
 
 TarefasTable.propTypes = {
   className: PropTypes.string,
+  deletarTarefa: PropTypes.func,
   tarefas: PropTypes.array.isRequired
 };
 
