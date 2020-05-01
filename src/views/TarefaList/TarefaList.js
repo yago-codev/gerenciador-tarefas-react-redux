@@ -23,7 +23,8 @@ const TarefaList = () => {
   const [mensagemDialog, setMensagemDialog] = useState('');
   const [idTarefaExcluida, setIdTarefaExcluida] = useState(null);
 
-  const headers = { 'x-tenant-id' : 'yagomilano92@gmail.com' }
+  const email = localStorage.getItem('@GerenciadorTarefas:email_usuario_logado');
+  const headers = { 'x-tenant-id' : email }
 
   useEffect(() => {
     listarTarefas();

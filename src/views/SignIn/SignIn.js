@@ -135,6 +135,7 @@ const SignIn = props => {
 
   const handleSignIn = event => {
     event.preventDefault();
+    localStorage.setItem('@GerenciadorTarefas:email_usuario_logado', email);
     history.push('/');
   };
 
@@ -207,7 +208,7 @@ const SignIn = props => {
                   label="Email"
                   name="email"
                   onChange={e => setEmail(e.target.value)}
-                  type="text"
+                  type="email"
                   value={email}
                   variant="outlined"
                 />
