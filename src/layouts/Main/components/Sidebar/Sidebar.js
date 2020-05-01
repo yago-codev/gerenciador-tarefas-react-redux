@@ -6,6 +6,7 @@ import { Divider, Drawer } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import { withRouter } from 'react-router-dom';
 
 import { Profile, SidebarNav } from './components';
 
@@ -49,11 +50,16 @@ const Sidebar = props => {
       icon: <FormatListBulletedIcon />
     },
     {
-      title: 'Login',
+      title: 'Logout',
       href: '/login',
       icon: <LockOpenIcon />
     }
   ];
+
+  const logout = () => {
+    localStorage.removeItem('@GerenciadorTarefas:email_usuario_logado');
+    props.history.push('/login');
+  }
 
   return (
     <Drawer
@@ -71,6 +77,7 @@ const Sidebar = props => {
         <Divider className={classes.divider} />
         <SidebarNav
           className={classes.nav}
+          logout={logout}
           pages={pages}
         />
       </div>
@@ -85,4 +92,4 @@ Sidebar.propTypes = {
   variant: PropTypes.string.isRequired
 };
 
-export default Sidebar;
+export default withRouter(Sidebar);
