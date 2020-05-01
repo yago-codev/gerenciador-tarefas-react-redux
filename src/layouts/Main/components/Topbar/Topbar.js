@@ -79,7 +79,6 @@ const Topbar = props => {
 
 Topbar.propTypes = {
   className: PropTypes.string,
-  history: PropTypes.func,
   onSidebarOpen: PropTypes.func
 };
 
