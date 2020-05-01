@@ -117,7 +117,7 @@ const TarefaList = () => {
           { btnExcluirTarefa && <Button
             idTarefaExcluida
             onClick={() => deletarTarefa(idTarefaExcluida)}
-                                >sim</Button> }
+          >sim</Button> }
           <Button onClick={() => setOpenDialog(false)}>fechar</Button>
         </DialogActions>
       </Dialog>
